@@ -9,6 +9,8 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class MqttConnectionService {
@@ -28,8 +30,8 @@ public class MqttConnectionService {
     @Value("${mqtt.password}")
     private String password;
 
-    @Value("${mqtt.topic}")
-    private String topic;
+    @Value("#{'${mqtt.topics}'.split(',')}")
+    private List<String> topics; // Ahora manejamos una lista de tópicos
 
     public boolean connect(){
         try {
@@ -62,8 +64,8 @@ public class MqttConnectionService {
         return mqttClient;
     }
 
-    public String getTopic(){
-        return topic;
+    public List<String> getTopics(){
+        return topics;
     }
 }
 

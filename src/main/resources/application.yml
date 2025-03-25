@@ -23,7 +23,9 @@ mqtt:
   clientId: emqx-to-rabbit-client
   username: pruebas_python
   password: python2023
-  topic: Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Viva Park
+  topics: "Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Viva Park, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Avenida 26, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Exito Torre 1 ESC, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Exito Torre 1, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Ingreso Bodytech, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Suecia 5, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Etapa 3 Motors, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Suecia 5 ESC, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Suecia 9, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Viva Park ESC"
+
+
 
 logging:
   level:
