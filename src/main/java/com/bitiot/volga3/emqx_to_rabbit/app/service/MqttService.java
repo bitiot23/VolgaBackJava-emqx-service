@@ -46,7 +46,7 @@ public class MqttService {
                 client.subscribe(topic, this::processMessage);
                 log.info("Suscrito al tópico: {}", topic);
             } catch (MqttException e){
-                log.error("Error al suscribirse al tópico: {}", e.getMessage());
+                log.error("Error al suscribirse al tópico: {} {}",topic, e.getMessage());
             }
         }
 
