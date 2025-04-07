@@ -19,7 +19,8 @@ public class MqttCoordinator {// Coordina la lógica de suscripción para evitar
     public void initialize(){
         //log.info("Ingresando al initialize");
         if (mqttConnectionService.connect()){ //Verifica si la conexión fue exitosa
-            mqttService.subscribeToTopic(mqttConnectionService.getTopic());
+            log.info("Conexión a MQTT exitosa. Suscribiendo a los tópicos...");
+            mqttService.subscribeToTopics();
 
         } else {
             log.error("No se pudo conectar al broker MQTT. La suscripción al tópico no se realizará.");
