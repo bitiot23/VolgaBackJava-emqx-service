@@ -8,41 +8,41 @@ spring:
    profiles:
      active: stage # Cambiar a "stage" o "prod" según el entorno
 
-#  jackson:
-#     serialization:
-#       fail-on-empty-beans: false
-#spring:
-#  rabbitmq:
-#    host: localhost   # O la IP/hostname de tu servidor RabbitMQ
-#    port: 5672
-#    username: guest   # Cambiar por el usuario real
-#    password: guest   # Cambiar por la contraseña real
-#    template:
-#      exchange: exchange-camera
-#      routing-key: camara-routing-key
-#      default-receive-queue: camara-queue
-#      mandatory: true
-#      virtual-host: /
-#      publisher-confirm-type: correlated # para confirmar la publicación de mensajes
-#    listener:
-#      simple:
-#        concurrency: 1
-#        max-concurrency: 5
-#
-#mqtt:
-#  brokerUrl: tcp://206.189.183.181:1883
-#  clientId: emqx-to-rabbit-client
-#  username: pruebas_python
-#  password: python2023
-#  topic: Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Viva Park
-#
-#logging:
-#  level:
-#    root: INFO
-#    org.springframework.web: DEBUG
-#    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
-#    org.springframework.amqp.rabbit: DEBUG
-#    org.springframework.amqp.rabbit.connection: DEBUG
-#    org.springframework.amqp.rabbit.core.RabbitTemplate: DEBUG
-#    org.springframework.amqp.rabbit.listener: DEBUG
-#    org.springframework.messaging: DEBUG
+  jackson:
+     serialization:
+       fail-on-empty-beans: false
+spring:
+  rabbitmq:
+    host: localhost   # O la IP/hostname de tu servidor RabbitMQ
+    port: 5672
+    username: guest   # Cambiar por el usuario real
+    password: guest   # Cambiar por la contraseña real
+    template:
+      exchange: exchange-camera
+      routing-key: camara-routing-key
+      default-receive-queue: camara-queue
+      mandatory: true
+      virtual-host: /
+      publisher-confirm-type: correlated # para confirmar la publicación de mensajes
+    listener:
+      simple:
+        concurrency: 1
+        max-concurrency: 5
+
+mqtt:
+  brokerUrl: tcp://206.189.183.181:1883
+  clientId: emqx-to-rabbit-client
+  username: pruebas_python
+  password: python2023
+  topic: Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Viva Park
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    org.springframework.amqp.rabbit: DEBUG
+    org.springframework.amqp.rabbit.connection: DEBUG
+    org.springframework.amqp.rabbit.core.RabbitTemplate: DEBUG
+    org.springframework.amqp.rabbit.listener: DEBUG
+    org.springframework.messaging: DEBUG
