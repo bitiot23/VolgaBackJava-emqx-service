@@ -1,16 +1,5 @@
 server:
   port: 8080
-
-spring:
-   application:
-     name:
-       emqx-to-rabbit
-   profiles:
-     active: stage # Cambiar a "stage" o "prod" según el entorno
-
-  jackson:
-     serialization:
-       fail-on-empty-beans: false
 spring:
   rabbitmq:
     host: localhost   # O la IP/hostname de tu servidor RabbitMQ
