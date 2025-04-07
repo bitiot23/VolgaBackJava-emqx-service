@@ -1,7 +1,9 @@
 package com.bitiot.volga3.emqx_to_rabbit.app.service;
 
+import com.bitiot.volga3.emqx_to_rabbit.app.config.MqttProperties;
 import com.bitiot.volga3.emqx_to_rabbit.app.model.CameraData;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.stereotype.Service;
@@ -11,26 +13,43 @@ import org.springframework.stereotype.Service;
 public class MqttService {
 
     private final MqttConnectionService mqttConnectionService;
-
     private final RabbitMQSenderService rabbitMQSenderService;
-
     private final ObjectMapper objectMapper;
+    private final MqttProperties mqttProperties;
 
-    public MqttService(MqttConnectionService mqttConnectionService, RabbitMQSenderService rabbitMQSenderService, ObjectMapper objectMapper){
+    public MqttService(MqttConnectionService mqttConnectionService,
+                       RabbitMQSenderService rabbitMQSenderService,
+                       ObjectMapper objectMapper,
+                       MqttProperties mqttProperties){
         this.mqttConnectionService = mqttConnectionService;
         this.rabbitMQSenderService = rabbitMQSenderService;
         this.objectMapper = objectMapper;
+        this.mqttProperties = mqttProperties;
     }
 
-    //Método para suscribirse a un tópico
-    public void subscribeToTopic(String topic) {
-        try {
-            //Suscribirse al tópico especificado y procesar mensajes recibidos
-            mqttConnectionService.getMqttClient().subscribe(topic, this::processMessage);
-            log.info("Suscrito al tópico: {}", topic);
-        } catch (MqttException e){
-            log.error("Error al suscribirse al tópico: {}", e.getMessage());
+    @PostConstruct
+    public void initialize(){
+        if (mqttConnectionService.connect()){
+            subscribeToTopics();
         }
+        else {
+            log.error("No se pudo conectar al broker MQTT. La suscripción a los tópicos no se realizará.");
+        }
+    }
+
+    //Método para suscribirse a todos los tópicos definidos en la configuración
+    public void subscribeToTopics() {
+        IMqttClient client = mqttConnectionService.getMqttClient();
+        for (String topic : mqttProperties.getTopics()){
+            try {
+                //Suscribirse al tópico especificado y procesar mensajes recibidos
+                client.subscribe(topic, this::processMessage);
+                log.info("Suscrito al tópico: {}", topic);
+            } catch (MqttException e){
+                log.error("Error al suscribirse al tópico: {} {}",topic, e.getMessage());
+            }
+        }
+
     }
 
     //Método para procesar los mensajes recibidos del tópico
