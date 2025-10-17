@@ -1,39 +1,34 @@
 server:
   port: 8080
+
 spring:
   application:
     name: emqx-to-rabbit
   rabbitmq:
-    host: 181.205.53.2   # O la IP/hostname de tu servidor RabbitMQ
+    host: 181.205.53.2   # O se puede poner el hostname del servidor en stage
     port: 5672
-    username: bitiotadmin   # Cambiar por el usuario real
-    password: 817107V01643bitiot*   # Cambiar por la contraseña real
-    template:
-      exchange: exchange-camera
-      routing-key: camara-routing-key
-      default-receive-queue: camara-queue
-      mandatory: true
-      virtual-host: /
-      publisher-confirm-type: correlated # para confirmar la publicación de mensajes
-    listener:
-      simple:
-        concurrency: 1
-        max-concurrency: 5
+    username: bitiotadmin   # usuario para stage
+    password: 817107V01643bitiot*   # contraseña para stage
+    virtual-host: /
+    publisher-confirm-type: CORRELATED
+
+app:
+  rabbitmq:
+    queue: "camara-queue"
+    exchange: "exchange-camera"
+    routing-key: "camara-routing-key"
 
 mqtt:
   brokerUrl: tcp://206.189.183.181:1883
   clientId: emqx-to-rabbit-client
   username: pruebas_python
   password: python2023
-  topics: "Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Viva Park, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Avenida 26, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Exito Torre 1 ESC, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Exito Torre 1, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Ingreso Bodytech, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Suecia 5, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Etapa 3 Motors, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Suecia 5 ESC, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Suecia 9, Bit-iot/sanpedro/Neiva/Neiva/Camara/Vivotek/Viva Park ESC"
+  topic: "Bit-iot/#"
 
 logging:
   level:
     root: INFO
     org.springframework.web: DEBUG
-    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
     org.springframework.amqp.rabbit: DEBUG
-    org.springframework.amqp.rabbit.connection: DEBUG
-    org.springframework.amqp.rabbit.core.RabbitTemplate: DEBUG
-    org.springframework.amqp.rabbit.listener: DEBUG
-    org.springframework.messaging: DEBUG
+    org.springframework.integration: DEBUG # Para ver Spring Integration
+    com.bitiot.volga3: DEBUG # Log del propio código
