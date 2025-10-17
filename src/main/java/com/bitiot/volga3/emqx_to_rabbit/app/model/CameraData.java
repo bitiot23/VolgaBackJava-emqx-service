@@ -21,13 +21,13 @@ public class CameraData {
     private String nameCamera;          //varchar (200)
 
     @JsonProperty("idBranchOffice")
-    private String idBranchOffice;      //int4
+    private Integer idBranchOffice;      //int4
 
     @JsonProperty("Entrada")
-    private String entrada;             //int4
+    private Integer entrada;             //int4
 
     @JsonProperty("Salida")
-    private String salida;              //int4
+    private Integer salida;              //int4
 
     @JsonProperty("StartTime")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
