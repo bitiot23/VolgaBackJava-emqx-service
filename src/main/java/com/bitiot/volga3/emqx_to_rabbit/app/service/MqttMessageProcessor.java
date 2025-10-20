@@ -29,13 +29,18 @@ public class MqttMessageProcessor {
     public void handleMqttMessage(Message<String> message){
         String payload = message.getPayload();
         String topic = message.getHeaders().get("mqtt_receivedTopic", String.class);
-        log.info("Mensaje recibido del tópico [{}]: {}", topic, payload);
+
+        //Este log solo se mostrará si se configura el application a debug
+        log.debug("Mensaje recibido del tópico [{}]: {}", topic, payload);
 
         try {
-            // Convertimos el payload (JSON) a nuestro objeto CameraData
+            // 1.Se intenta deserializar. Convertimos el payload (JSON) a nuestro objeto CameraData
             CameraData cameraData = objectMapper.readValue(payload, CameraData.class);
 
-            // Extraemos el nombre de la cámara del tópico (ejemplo de enriquecimiento)
+            // 2. Si se tiene éxito, se procede. Esto se mostrará en INFO y es más limpio
+            log.info("Procesando mensaje de la cámara: {}", cameraData.getNameCamera());
+
+            // Extraemos el nombre de la cámara del tópico
             if (topic != null && cameraData.getNameCamera() == null){
                 String[] topicParts = topic.split("/");
                 cameraData.setNameCamera(topicParts[topicParts.length-1]);
@@ -45,7 +50,7 @@ public class MqttMessageProcessor {
             rabbitMQSenderService.sendCameraData(cameraData);
 
         }catch (IOException e){
-            log.error("Error al deserializar el mensaje de MQTT: {}", payload, e);
+            log.error("Error al deserializar el mensaje del tópico [{}]. Mensaje descartado. Error: {}. Payload: {}", topic, e.getMessage(), payload);
         }
     }
 }

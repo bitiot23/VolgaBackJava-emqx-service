@@ -12,14 +12,19 @@ import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannel
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
 import org.springframework.messaging.MessageChannel;
 
+import java.util.UUID;
+
 @Slf4j
 @Configuration
 public class MqttInboundConfig {
 
     private final MqttProperties mqttProperties;
+    private final String uniqueClientId;
 
     public MqttInboundConfig(MqttProperties mqttProperties) {
         this.mqttProperties = mqttProperties;
+        this.uniqueClientId = mqttProperties.getClientId() + "-" + UUID.randomUUID().toString().substring(0, 8);
+        log.info("Using unique MQTT Client ID: {}", this.uniqueClientId); // Log it!
     }
 
     /**
@@ -35,7 +40,7 @@ public class MqttInboundConfig {
         options.setUserName(mqttProperties.getUsername());
         options.setPassword(mqttProperties.getPassword().toCharArray());
         options.setAutomaticReconnect(true); //Reconexión automática
-        options.setCleanSession(false); //Mantiene la sesión activa entre reconexiones
+        options.setCleanSession(true); //con false (Ponerlo para producción) Mantiene la sesión activa entre reconexiones, con true forza la limpieza de sesiones para debug
         factory.setConnectionOptions(options);
         return factory;
     }
@@ -64,14 +69,16 @@ public class MqttInboundConfig {
 
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter(
-                        mqttProperties.getClientId() + "_inbound",
+                        //mqttProperties.getClientId() + "_inbound",
+                        this.uniqueClientId,
                         mqttClientFactory(),
                         topicToSubscribe
                 );
-        adapter.setCompletionTimeout(5000);
+        adapter.setCompletionTimeout(10000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1); //Calidad de servicio: al menos una vez
         adapter.setOutputChannel(mqttInputChannel());
+
         return adapter;
     }
 }
