@@ -38,7 +38,7 @@ public class MqttMessageProcessor {
             CameraData cameraData = objectMapper.readValue(payload, CameraData.class);
 
             // 2. Si se tiene éxito, se procede. Esto se mostrará en INFO y es más limpio
-            log.info("Procesando mensaje de la cámara: {}", cameraData.getNameCamera());
+            log.info("Procesando mensaje del tópico: {}", topic);
 
             // Extraemos el nombre de la cámara del tópico
             if (topic != null && cameraData.getNameCamera() == null){
