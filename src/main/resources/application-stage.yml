@@ -1,34 +1,21 @@
-server:
-  port: 8080
-
+# Configuración para el perfil 'stage' (lee variables de entorno)
 spring:
-  application:
-    name: emqx-to-rabbit
   rabbitmq:
-    host: 181.205.53.2   # O se puede poner el hostname del servidor en stage
-    port: 5672
-    username: bitiotadmin   # usuario para stage
-    password: 817107V01643bitiot*   # contraseña para stage
+    host: ${SPRING_RABBITMQ_HOST}
+    port: ${SPRING_RABBITMQ_PORT}
+    username: ${SPRING_RABBITMQ_USERNAME}
+    password: ${SPRING_RABBITMQ_PASSWORD}
     virtual-host: /
     publisher-confirm-type: CORRELATED
 
-app:
-  rabbitmq:
-    queue: "camara-queue"
-    exchange: "exchange-camera"
-    routing-key: "camara-routing-key"
-
 mqtt:
-  brokerUrl: tcp://206.189.183.181:1883
-  clientId: emqx-to-rabbit-client
-  username: pruebas_python
-  password: python2023
-  topic: "Bit-iot/#"
+  brokerUrl: ${MQTT_BROKER_URL}
+  clientId: ${MQTT_CLIENT_ID}
+  username: ${MQTT_USERNAME}
+  password: ${MQTT_PASSWORD}
 
 logging:
   level:
     root: WARN
-    #org.springframework.web: DEBUG
     org.springframework.amqp.rabbit: DEBUG
-    #org.springframework.integration: DEBUG # Para ver logs de Spring Integration
-    com.bitiot.volga3: DEBUG # Log del propio código
+    com.bitiot.volga3: DEBUG
