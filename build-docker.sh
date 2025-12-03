@@ -3,7 +3,7 @@
 #Variables
 APP_NAME="emqx-to-rabbit" #El nombre de la app
 DOCKER_TAG="bitiot21/$APP_NAME"
-IMAGE_VERSION="1.0.0" # En vez de versiones, se puede usar latest, pero esta será la versión 1 del proyecto, entonces así
+IMAGE_VERSION="1.0.1" # En vez de versiones, se puede usar latest, pero este será el versionamiento del proyecto, entonces así
 
 echo "Iniciando build y push para $APP_NAME..."
 

@@ -28,7 +28,7 @@ mqtt:
   username: ${MQTT_USERNAME}
   password: ${MQTT_PASSWORD}
   # El tópico usamos el comodín # para producción también
-  topic: "Bit-iot/+/+/+/Camara/#"
+  topic: "Bit-iot/#"
 
 logging:
   level:
